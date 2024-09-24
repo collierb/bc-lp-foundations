@@ -17,8 +17,8 @@ def clean_data(country):
     long_df['value'] = pd.to_numeric(long_df.value, errors='coerce')
     long_df.dropna(inplace=True)
     long_df.reset_index(inplace=True, drop=True)
-    pt_df = long_df[long_df['region']==country].reset_index(drop=True)
-    pt_df.to_csv(abs_path + f'data/{country}_life_expectancy.csv', index=False)
+    country_df = long_df[long_df['region']==country].reset_index(drop=True)
+    country_df.to_csv(abs_path + f'data/{country}_life_expectancy.csv', index=False)
     print(f'clean and filtered file for {country} saved to data folder')
 
 if __name__ == "__main__": # pragma: no cover
