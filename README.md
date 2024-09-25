@@ -1,5 +1,7 @@
 # Foundations Learning Path Assignments
 
+[![CI/CD](https://github.com/collierb/bc-lp-foundations/actions/workflows/python-ci.yml/badge.svg)](https://github.com/collierb/bc-lp-foundations/actions/workflows/python-ci.yml)
+
 ## Introduction
 
 We are going to be using this project throughout the course.
