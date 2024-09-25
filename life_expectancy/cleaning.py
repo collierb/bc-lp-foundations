@@ -1,6 +1,6 @@
 '''preprocess data'''
-import pandas as pd
 import argparse
+import pandas as pd
 
 def clean_data(country):
     '''function to load, process and save data'''
@@ -23,6 +23,6 @@ def clean_data(country):
 
 if __name__ == "__main__": # pragma: no cover
     parser = argparse.ArgumentParser(description='country filter for life expectancy data')
-    parser.add_argument('--country', default='PT', help='select country for filter in ISO2 format eg FR')
-    args = parser.parse_args()                
+    parser.add_argument('--country', default='PT', help='select country in ISO2 format eg FR')
+    args = parser.parse_args()
     clean_data(args.country)
