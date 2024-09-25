@@ -1,11 +1,13 @@
 '''preprocess data'''
+from pathlib import Path
 import argparse
 import pandas as pd
 
+PATH = Path(__file__).parent
+
 def clean_data(country):
     '''function to load, process and save data'''
-    abs_path = 'C:/Users/colli/Documents/dareData/assignments/life_expectancy/'
-    df = pd.read_csv(abs_path + 'data/eu_life_expectancy_raw.tsv', sep='\t')
+    df = pd.read_csv(PATH/'data'/'eu_life_expectancy_raw.tsv', sep='\t')
     df[['unit','sex','age','region']] = df['unit,sex,age,geo\\time'].str.split(',', expand=True)
     df.drop(columns='unit,sex,age,geo\\time', inplace=True)
     long_df = pd.melt(df,
@@ -18,7 +20,7 @@ def clean_data(country):
     long_df.dropna(inplace=True)
     long_df.reset_index(inplace=True, drop=True)
     country_df = long_df[long_df['region']==country].reset_index(drop=True)
-    country_df.to_csv(abs_path + f'data/{country}_life_expectancy.csv', index=False)
+    country_df.to_csv(PATH/'data'/f'{country}_life_expectancy.csv', index=False)
     print(f'clean and filtered file for {country} saved to data folder')
 
 if __name__ == "__main__": # pragma: no cover
