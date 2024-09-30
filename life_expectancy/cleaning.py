@@ -12,28 +12,28 @@ def load_data() -> pd.DataFrame:
 
 def clean_data(loaded_df: pd.DataFrame) -> pd.DataFrame:
     '''clean data and reshape to long format.'''
-    loaded_df[['unit','sex','age','region']] = loaded_df['unit,sex,age,geo\\time'].str.split(',', expand=True)
-    # tab seperation from the load data function above left one column needing to be split on the comma
+    loaded_df[['unit','sex','age','region']] = loaded_df['unit,sex,age,geo\\time'].str.split(
+        ',', expand=True)
+    # tab seperation from the load_data above left one column needing to be split on the comma
     loaded_df.drop(columns='unit,sex,age,geo\\time', inplace=True)
     long_df = pd.melt(loaded_df,
                       id_vars=['unit','sex','age','region'],
                       var_name='year',
                       value_name='value')
     long_df['year'] = long_df.year.str.strip().astype(int)
-    long_df['value'] = long_df.value.str.split(expand=True)[0] 
+    long_df['value'] = long_df.value.str.split(expand=True)[0]
     # whitespace seperated out various non-numeric references in variable value
-    long_df['value'] = pd.to_numeric(long_df.value, errors='coerce') # coerce ensures all "" entries converted to NaN
+    long_df['value'] = pd.to_numeric(long_df.value, errors='coerce')
+    # coerce ensures all "" entries converted to NaN
     long_df.dropna(inplace=True)
     long_df.reset_index(inplace=True, drop=True)
     return long_df
-    
 
 def save_data(cleaned_df: pd.DataFrame, country: str) -> None:
     '''save the cleaned data to data folder'''
     country_df = cleaned_df[cleaned_df['region']==country].reset_index(drop=True)
     country_df.to_csv(PARENT_PATH/'data'/f'{country}_life_expectancy.csv', index=False)
     print(f'clean and filtered file for {country} saved to data folder')
-    
 
 def preprocess_data(country: str) -> None:
     '''call load, clean and save functions.
