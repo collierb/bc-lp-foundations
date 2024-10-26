@@ -3,7 +3,7 @@
 import pandas as pd
 from unittest.mock import patch, Mock
 
-from life_expectancy.cleaning import clean_data, load_data, save_data
+from life_expectancy.cleaning import clean_data, load_data, save_data, Region
 
 
 def test_clean_data(input_df, expected_df):
@@ -40,7 +40,11 @@ def test_save_data():
     with patch("pandas.DataFrame.to_csv") as to_csv_mock:
         to_csv_mock.return_value = print("mocking pandas to_csv method")
         # no required return value
-        actual_df = save_data(test_df, "PT")
+        actual_df = save_data(test_df, Region.PORTUGAL)
         expected_df = test_df[test_df["region"] == "PT"].reset_index(drop=True)
         pd.testing.assert_frame_equal(actual_df, expected_df)
         to_csv_mock.assert_called_once()
+
+
+def test_region_list():
+    assert len(Region.region_list()) == 47
