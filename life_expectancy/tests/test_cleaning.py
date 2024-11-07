@@ -3,7 +3,8 @@
 import pandas as pd
 from unittest.mock import patch, Mock
 
-from life_expectancy.cleaning import clean_data, load_data, save_data, Region
+from life_expectancy.cleaning import clean_data, load_data, save_data
+from life_expectancy.region import Region
 
 
 def test_clean_data(input_df, expected_df):
