@@ -3,6 +3,7 @@
 from pathlib import Path
 import argparse
 import pandas as pd
+from life_expectancy.region import Region
 
 PARENT_PATH = Path(__file__).parent
 
@@ -36,17 +37,19 @@ def clean_data(loaded_df: pd.DataFrame) -> pd.DataFrame:
     return long_df
 
 
-def save_data(cleaned_df: pd.DataFrame, country: str) -> pd.DataFrame:
+def save_data(cleaned_df: pd.DataFrame, country: Region) -> pd.DataFrame:
     """save the cleaned data to data folder"""
-    country_df = cleaned_df[cleaned_df["region"] == country].reset_index(drop=True)
-    country_df.to_csv(
-        PARENT_PATH / "data" / f"{country}_life_expectancy.csv", index=False
+    country_df = cleaned_df[cleaned_df["region"] == country.value].reset_index(
+        drop=True
     )
-    print(f"clean and filtered file for {country} saved to data folder")
+    country_df.to_csv(
+        PARENT_PATH / "data" / f"{country.value}_life_expectancy.csv", index=False
+    )
+    # print(f"clean and filtered file for {country.value} saved to data folder")
     return country_df  # for testing purposes only
 
 
-def preprocess_data(country: str) -> None:
+def preprocess_data(country: Region) -> None:
     """call load, clean and save functions.
     Optional country selection defauts to PT
     """
@@ -60,7 +63,11 @@ if __name__ == "__main__":  # pragma: no cover
         description="country filter for life expectancy data"
     )
     parser.add_argument(
-        "--country", default="PT", help="select country in ISO2 format eg FR"
+        "--country",
+        type=Region,
+        choices=list(Region),
+        default="PT",
+        help="select country in ISO2 format eg FR",
     )
     args = parser.parse_args()
     preprocess_data(args.country)
