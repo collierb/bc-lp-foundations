@@ -9,19 +9,18 @@ from life_expectancy.region import Region
 
 def test_clean_data(input_df, expected_df):
     """Run the `clean_data` function and compare the output to the expected output,
-    using the sample fixtures created in the sample_fixtures.ipynb notebook
-    and referenced in the conftest.py file"""
+    using the sample fixtures referenced in the conftest.py file"""
     actual_df = clean_data(input_df)
     pd.testing.assert_frame_equal(actual_df, expected_df)
 
 
-@patch("life_expectancy.cleaning.pd.read_csv")
-def test_load_data(read_csv_mock: Mock):
+@patch("life_expectancy.cleaning.pd.read_json")
+def test_load_data(read_json_mock: Mock):
     """running and checking load_data on a mock dataframe"""
-    read_csv_mock.return_value = pd.DataFrame({"life_exp": [78, 79, 77]})
+    read_json_mock.return_value = pd.DataFrame({"life_exp": [78, 79, 77]})
     actual_df = load_data()
-    read_csv_mock.assert_called_once()
-    pd.testing.assert_frame_equal(actual_df, read_csv_mock.return_value)
+    read_json_mock.assert_called_once()
+    pd.testing.assert_frame_equal(actual_df, read_json_mock.return_value)
 
 
 def test_save_data():
