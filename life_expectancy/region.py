@@ -1,3 +1,5 @@
+"""enum of countries"""
+
 from enum import Enum
 
 
